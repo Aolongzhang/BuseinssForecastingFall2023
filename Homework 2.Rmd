@@ -1,0 +1,98 @@
+---
+title: "Homework 2"
+author: "Aolong Zhang"
+date: "9/20/2023"
+output:
+  html_document
+---
+
+
+
+```{r}
+library(readxl)
+Typical_Employee_Survey_Data_2_ <- read_excel("C:/Users/17215/OneDrive/Desktop/Typical_Employee_Survey_Data (2).xlsx", 
+    col_names = FALSE)
+
+data1 = Typical_Employee_Survey_Data_2_
+
+
+
+new_column_names = c("Age", "Gender", "Satisfication", "Important", "Wroking years", "Promotion", "Make decisions", "Budgetary decisions", "Proud", "Stay", "Relationship")
+
+names(data1) = new_column_names
+
+names(data1)
+
+head(data1)
+
+
+#5-point summary and boxplots
+summary(data1)
+boxplot(data1)
+
+
+# convert to factor 
+data1$Gender = factor(data1$Gender, levels = c(1,2),labels = c("Male","Femal"))
+
+data1$Important = factor(data1$Important, levels = c(1,2,3,4,5), labels = c("high income","no danger of being fired","flexible hours","advancement opportunities","enjoying the work"))
+
+data1$`Make decisions`= factor(data1$`Make decisions`, levels = c(1,2,3,4),labels = c("Always","Much of the time", "Sometimes","Unlikely") )
+data1$Promotion = factor(data1$Promotion,levels = c(1,2,3,4,5),labels = c("Very likely","Likely","Not sure","Unlikely","Very unlikely"))
+
+data1$`Budgetary decisions`= factor(data1$`Budgetary decisions`,levels =c(1,2),labels = c("Yes","No") )
+
+data1$Stay = factor(data1$Stay,levels = c(1,2,3,4,5),labels = c("Very likely","Likely","Not sure","Unlikely","Very unlikely"))
+
+
+head(data1)                      
+
+
+# Visuals
+age_freq = table(data1$Age)
+age_freq_data1 = as.data.frame(age_freq)
+colnames(age_freq_data1) = c("Age", "Frequency")
+barplot(age_freq_data1$Frequency, names.arg = age_freq_data1$Age, xlab = "Age", ylab = "Frequency", main = "Age Frequency")
+
+boxplot.default(data1$Age)
+
+
+plot(data1$Gender,col="yellow",main = "Gender Distribution")
+
+
+hist(data1$Satisfication,col="green",main = "employee satisfaction", las=2,xlab = "rating")
+plot(data1$Important,col="green",main = "Important for employee", las=2)
+plot(data1$Promotion,col="green",main = "Promotion", las=2)
+plot(data1$`Make decisions`,col="green",main = "Making decisions affect work", las=2)
+plot(data1$`Budgetary decisions`,col="green",main = "Participate in budgetary decisions")
+hist(data1$Proud,col="green",main = "Feel proud working here", las=2,xlab = "rating")
+plot(data1$Stay,col="green",main = "Turn down another job for more pay ", las=2)
+hist(data1$Relationship,col="green",main = "Workplace relationships", las=2,xlab = "rating")
+
+hist(data1$`Wroking years`,col="orange", main = "Employee working years", xlab = "years")
+
+
+
+## scatter plots
+
+scatter.smooth(data1$Satisfication,data1$Proud, xlab = "Satisfaction rating",ylab = "proud rating")
+cor(data1$Satisfication,data1$Proud) 
+
+scatter.smooth(data1$Age,data1$Satisfication, xlab = "age",ylab = "satisfaction rating")
+cor(data1$Age,data1$Satisfication) 
+
+scatter.smooth(data1$`Wroking years`,data1$Satisfication, xlab = "working years",ylab = "Satisfaction rating")
+cor(data1$`Wroking years`,data1$Satisfication) 
+
+scatter.smooth(data1$Age,data1$Relationship,xlab = "age",ylab = "relationship rating")
+cor(data1$Age,data1$Relationship) 
+
+
+scatter.smooth(data1$`Wroking years`,data1$Relationship)
+cor(data1$`Wroking years`,data1$Relationship)
+
+
+
+
+```
+
+
